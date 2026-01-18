@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces">
+
+<ui:composition template="/templates/login-template.xhtml">
+
+	<ui:define name="content" class="box">
+
+            
+        <style>
+            .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+                text-align: center;
+            }
+
+            .customPanelGrid .ui-panelgrid-content {
+                align-items: center;
+            }
+        </style>
+
+<h:form>
+<div class="card">
+    <h1>Strona Logowania</h1>
+    <p:panelGrid columns="2">
+        <h:outputLabel for="login" value="#{txtMain.username}:" />
+        <h:inputText id="login" value="#{loginBB.login}"
+					required="true"	requiredMessage="#{txtErr.requiredMessage}"/>
+
+        <h:outputLabel for="pass" value="#{txtMain.password}:" />
+        <h:inputSecret id="pass" value="#{loginBB.pass}"
+				required="true"	requiredMessage="#{txtErr.requiredMessage}"/>
+        
+        <h:commandButton value="#{txtMain.buttonLogin}" action="#{loginBB.doLogin()}"/>
+        
+        <h:message for="someInput" /><h:messages />
+
+    </p:panelGrid>
+</div>
+            
+         		              
+		
+		
+			
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>
