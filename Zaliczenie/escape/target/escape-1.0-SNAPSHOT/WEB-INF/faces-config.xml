@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="https://jakarta.ee/xml/ns/jakartaee"
+    version="4.0">
+
+    <application>
+
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>en</supported-locale>
+            <supported-locale>pl</supported-locale>
+        </locale-config>
+
+        <resource-bundle>
+            <base-name>resources.textMain</base-name>
+            <var>txtMain</var>
+        </resource-bundle>
+        
+        <resource-bundle>
+            <base-name>resources.textErr</base-name>
+            <var>txtErr</var>
+        </resource-bundle>
+
+    </application>
+</faces-config>

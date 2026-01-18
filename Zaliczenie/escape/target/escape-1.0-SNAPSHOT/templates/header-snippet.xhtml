@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="primefaces">
+
+    <style>
+        .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+            text-align: left;
+        }
+        .ui-g{
+            width: 7rem;
+        }
+    </style>
+    
+    <p:panelGrid columns="2">
+        <h:graphicImage library="template" name="img/logo.jpg" alt="logo" style="height: 2rem;"/>
+        <ui:insert name="title">The Escapists</ui:insert>
+    </p:panelGrid>
+        <h:form style="text-align: right; position: fixed; right: 0; top: 2rem;">
+            <h:outputText value="#{txtMain.loggedTitle}: #{remoteClient.details.accName} #{remoteClient.details.accSurname}" />
+            <h:commandButton value="#{txtMain.buttonLogout}" action="#{loginBB.doLogout()}" />
+        </h:form>
+
+</ui:composition>

@@ -1,0 +1,16 @@
+com\jsfcourse\entities\Rooms.class
+jakarta\faces\simplesecurity\RemoteClient.class
+jakarta\faces\simplesecurity\SecurityFilter.class
+com\jsfcourse\entities\Roles.class
+com\jsfcourse\account\AccountsEditBB.class
+com\jsfcourse\DAO\AccountsDAO.class
+com\jsfcourse\entities\Accounts.class
+com\jsfcourse\menuBadgeView\MenuBadgeView.class
+com\jsfcourse\escape\resources\JakartaEE11Resource.class
+com\jsfcourse\escape\JakartaRestConfiguration.class
+com\jsfcourse\login\LoginBB.class
+com\jsfcourse\entities\Accroles.class
+com\jsfcourse\account\AccountsEditGETBB.class
+com\jsfcourse\account\AccountsListBB.class
+com\jsfcourse\entities\Reservations.class
+com\jsfcourse\entities\Vouchers.class
