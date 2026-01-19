@@ -13,13 +13,34 @@
         }
     </style>
     
-    <p:panelGrid columns="2">
-        <h:graphicImage library="template" name="img/logo.jpg" alt="logo" style="height: 2rem;"/>
-        <ui:insert name="title">The Escapists</ui:insert>
-    </p:panelGrid>
-        <h:form style="text-align: right; position: fixed; right: 0; top: 2rem;">
-            <h:outputText value="#{txtMain.loggedTitle}: #{remoteClient.details.accName} #{remoteClient.details.accSurname}" />
-            <h:commandButton value="#{txtMain.buttonLogout}" action="#{loginBB.doLogout()}" />
+
+        <p:panelGrid columns="2">
+            <h:graphicImage library="template" name="img/logo.jpg" alt="logo" style="height: 2rem;"/>
+            <ui:insert name="title">The Escapists</ui:insert>
+        </p:panelGrid>
+    
+        <h:form style="text-align: right; position: fixed; right: 1rem; top: 2rem;">
+
+            <!-- NIEZALOGOWANY -->
+            <h:commandButton
+                value="Zaloguj"
+                action="#{loginBB.goToLogin}"
+                rendered="#{empty remoteClient.details}" styleClass="fancyButton" />
+
+            <!-- ZALOGOWANY -->
+            <h:panelGroup rendered="#{not empty remoteClient.details}">
+                <h:outputText
+                    value="Zalogowany: #{remoteClient.details.accName} "
+                    style="margin-right: .5rem;" />
+
+                <h:commandButton
+                    value="Wyloguj"
+                    action="#{loginBB.doLogout}" styleClass="fancyButton" />
+            </h:panelGroup>
+
         </h:form>
 
+
+
+    
 </ui:composition>

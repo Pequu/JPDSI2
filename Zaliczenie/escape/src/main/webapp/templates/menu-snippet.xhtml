@@ -11,7 +11,10 @@
         <p:menuitem value="Strona Główna" outcome="/pages/public/welcome" icon="pi pi-fw pi-home" >
             <f:param name="i" value="0"/>
         </p:menuitem>
-        <p:menuitem value="Ustawienia" outcome="/pages/admin/accountsList" icon="pi pi-fw pi-cog">
+        <p:menuitem value="Pokoje" outcome="/pages/public/roomList" icon="pi pi-fw pi-objects-column">
+            <f:param name="i" value="1"/>
+        </p:menuitem>
+         <p:menuitem value="Ustawienia" outcome="/pages/admin/accountsList" icon="pi pi-fw pi-cog">
             <f:param name="i" value="1"/>
         </p:menuitem>
     </p:tabMenu>

@@ -22,7 +22,7 @@
         </style>
 
 <h:form>
-<div class="card">
+<div class="card logForm">
     <h1>Strona Logowania</h1>
     <p:panelGrid columns="2">
         <h:outputLabel for="login" value="#{txtMain.username}:" />
@@ -33,7 +33,7 @@
         <h:inputSecret id="pass" value="#{loginBB.pass}"
 				required="true"	requiredMessage="#{txtErr.requiredMessage}"/>
         
-        <h:commandButton value="#{txtMain.buttonLogin}" action="#{loginBB.doLogin()}"/>
+        <h:commandButton value="#{txtMain.buttonLogin}" action="#{loginBB.doLogin()}" styleClass="fancyButton"/>
         
         <h:message for="someInput" /><h:messages />
 

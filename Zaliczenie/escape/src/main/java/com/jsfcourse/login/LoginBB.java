@@ -19,7 +19,7 @@ import java.util.Map;
 @Named
 @RequestScoped
 public class LoginBB {
-	private static final String PAGE_MAIN = "/pages/accounts/accountsListUsers?faces-redirect=true";
+	private static final String PAGE_MAIN = "/pages/public/welcome?faces-redirect=true";
 	private static final String PAGE_LOGIN = "/pages/login";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
@@ -88,7 +88,10 @@ public class LoginBB {
 		// - all objects within session will be destroyed
 		// - new session will be created (with new ID)
 		session.invalidate();
-		return PAGE_LOGIN;
+		return PAGE_MAIN;
 	}
+        public String goToLogin() {
+            return "/pages/login.xhtml?faces-redirect=true";
+        }
 	
 }

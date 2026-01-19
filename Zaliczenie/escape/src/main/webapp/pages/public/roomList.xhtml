@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/main-template.xhtml">
+
+        <ui:define name="content">
+            <section class="light first">
+
+                <h:graphicImage library="template" name="img/baner.jpg" alt="baner" style="height: 25rem;"/>
+               
+                <h2>Lista naszych aktualnych Escape Room'ów</h2>
+                
+            <p:panel header="#{txtMain.searchOpt}" toggleable="true" collapsed="true"
+                     style="margin-bottom: 1em;">
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel value="Nazwa Pokoju" />
+                        <p:inputText value="#{RoomsListBB.roomName}" />
+                        <p:commandButton value="#{txtMain.buttonSearch}" update="form-table" />
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+
+            <p:messages />
+
+            <h:form id="form-table" style="margin-bottom:1em;" >
+
+                <p:dataTable value="#{roomsListBB.list}" var="r">
+
+                    <p:column responsivePriority="5">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa pokoju" />
+                        </f:facet>
+                        <h:outputText value="#{r.roomName}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opis pokoju" />
+                        </f:facet>
+                        <h:outputText value="#{r.roomDescription}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Cena:" />
+                        </f:facet>
+                        <h:outputText value="#{r.roomPrice}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Obraz:" />
+                        </f:facet>
+                        <h:outputText value="#{r.roomCover}" />
+                    </p:column>
+
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{txtMain.options}" />
+                        </f:facet>
+
+                        <p:commandButton value="#{txtMain.buttonEdit}" style="margin-right: 0.5em"
+                                         />
+
+                        <p:commandButton value="#{txtMain.buttonDelete}" style="margin-right: 0.5em"
+                                         
+                                         update="@form" />
+
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+                
+            </section>
+                     
+        </ui:define>
+
+    </ui:composition>
+</html>
