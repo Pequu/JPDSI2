@@ -34,9 +34,26 @@ public class AccountsDAO {
 		return em.merge(accounts);
 	}
 
-	public void remove(Accounts accounts) {
-		em.remove(em.merge(accounts));
-	}
+	public void removeAccountWithRoles(Accounts account) {
+            // pobierz konto z kolekcją ról
+            Accounts managed = em.createQuery(
+                "SELECT a FROM Accounts a LEFT JOIN FETCH a.accrolesCollection WHERE a.idAccount = :id", Accounts.class)
+                .setParameter("id", account.getIdAccount())
+                .getSingleResult();
+
+            // usuń powiązane role ręcznie
+            if (managed.getAccrolesCollection() != null) {
+                for (Accroles ar : managed.getAccrolesCollection()) {
+                    em.remove(ar);
+                }
+            }
+
+            // usuń samo konto
+            em.remove(managed);
+        }
+
+
+
 
 	public Accounts find(Object id) {
 		return em.find(Accounts.class, id);
@@ -57,46 +74,33 @@ public class AccountsDAO {
 	}
 
 	public List<Accounts> getList(Map<String, Object> searchParams) {
-		List<Accounts> list = null;
+            List<Accounts> list = null;
 
-		// 1. Build query string with parameters
-		String select = "select a ";
-		String from = "from Accounts a ";
-		String where = "";
-		String orderby = "order by a.accSurname asc, a.accName";
+            String select = "select a ";
+            String from = "from Accounts a ";
+            String where = "";
+            String orderby = "order by a.accSurname asc, a.accName";
 
-		// search for surname
-		String accSurname = (String) searchParams.get("accSurname");
-		if (accSurname != null) {
-			if (where.isEmpty()) {
-				where = "where ";
-			} else {
-				where += "and ";
-			}
-			where += "a.accSurname like :accSurname ";
-		}
-		
-		// ... other parameters ... 
+            String accSurname = (String) searchParams.get("accSurname");
+            if (accSurname != null && !accSurname.trim().isEmpty()) {
+                where = "where a.accSurname like :accSurname ";
+            }
 
-		// 2. Create query object
-		Query query = em.createQuery(select + from + where + orderby);
+            Query query = em.createQuery(select + from + where + orderby);
 
-		// 3. Set configured parameters
-		if (accSurname != null) {
-			query.setParameter("accSurname", accSurname+"%");
-		}
+            if (accSurname != null && !accSurname.trim().isEmpty()) {
+                query.setParameter("accSurname", accSurname.trim() + "%");
+            }
 
-		// ... other parameters ... 
+            try {
+                list = query.getResultList();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-		// 4. Execute query and retrieve list of Accounts objects
-		try {
-			list = query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            return list;
+        }
 
-		return list;
-	}
         //wyszukanie loginu i czy się zgadza z haslem z bazy
         public Accounts findByLogin(String login, String pass) {
             

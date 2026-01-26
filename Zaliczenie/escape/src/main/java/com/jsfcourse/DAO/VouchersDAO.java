@@ -12,23 +12,16 @@ public class VouchersDAO {
     @PersistenceContext
     private EntityManager em;
 
-    // Znajdź voucher po ID
-    public Vouchers find(Integer id) {
-        if (id == null) return null;
-        return em.find(Vouchers.class, id);
+   public Vouchers findActiveByName(String name) {
+        try {
+            return em.createQuery(
+                "SELECT v FROM Vouchers v WHERE v.voName = :name AND v.voIsActive = true",
+                Vouchers.class)
+                .setParameter("name", name)
+                .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
-
-    // Pobierz wszystkie aktywne vouchery
-    public List<Vouchers> findActiveVouchers() {
-        return em.createNamedQuery("Vouchers.findByVoIsActive", Vouchers.class)
-                 .setParameter("voIsActive", true)
-                 .getResultList();
-    }
-
-    // Zaktualizuj voucher (np. po użyciu)
-    public void update(Vouchers voucher) {
-        em.merge(voucher);
-    }
-
-    // Możesz też dodać create / delete jeśli potrzebujesz
 }
+

@@ -15,88 +15,85 @@ import jakarta.servlet.http.HttpSession;
 
 import com.jsfcourse.DAO.AccountsDAO;
 import com.jsfcourse.entities.Accounts;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.view.ViewScoped;
+import java.io.Serializable;
 
 @Named
-@RequestScoped
-public class AccountsListBB {
-	private static final String PAGE_STAY_AT_THE_SAME = null;
-        private static final String PAGE_ACCOUNTS_EDIT = "accountsEdit?faces-redirect=true";
+@ViewScoped
+public class AccountsListBB implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private static final String PAGE_ACCOUNTS_EDIT = "accountsEdit?faces-redirect=true";
 
-	private String accName;
-        private String accSurname;
-		
-	@Inject
-	ExternalContext extcontext;
-	
-	@Inject
-	Flash flash;
-	
-	@EJB
-        AccountsDAO accountsDAO;
-		
-	public String getAccSurname() {
-		return accSurname;
-	}
+    private String accSurname;
+    private List<Accounts> list;
+    private Accounts selectedAccount;
 
-	public void setAccSurname(String accSurname) {
-		this.accSurname = accSurname;
-	}
-        
-        public String getAccName() {
-		return accName;
-	}
-        
-        public void setAccName(String accName) {
-		this.accName = accName;
-	}
+    @EJB
+    private AccountsDAO accountsDAO;
 
-	public List<Accounts> getFullList(){
-		return accountsDAO.getFullList();
-	}
+    @Inject
+    private Flash flash;
 
-	public List<Accounts> getList(){
-		List<Accounts> list = null;
-		
-		//1. Prepare search params
-		Map<String,Object> searchParams = new HashMap<String, Object>();
-		
-		if (accSurname != null && accSurname.length() > 0){
-			searchParams.put("accSurname", accSurname);
-		}
-		
-		//2. Get list
-		list = accountsDAO.getList(searchParams);
-		
-		return list;
-	}
-        
-        public String newAccounts(){
-		Accounts accounts = new Accounts();
-		
-		//1. Pass object through session
-		//HttpSession session = (HttpSession) extcontext.getSession(true);
-		//session.setAttribute("accounts", accounts);
-		
-		//2. Pass object through flash	
-		flash.put("accounts", accounts);
-		
-		return PAGE_ACCOUNTS_EDIT;
-	}
+    // gettery i settery
+    public String getAccSurname() { 
+        return accSurname; 
+    }
+    public void setAccSurname(String accSurname) { 
+        this.accSurname = accSurname; 
+    }
 
-	public String editAccounts(Accounts accounts){
-		//1. Pass object through session
-		//HttpSession session = (HttpSession) extcontext.getSession(true);
-		//session.setAttribute("accounts", accounts);
-		
-		//2. Pass object through flash 
-		flash.put("accounts", accounts);
-		
-		return PAGE_ACCOUNTS_EDIT;
-	}
+    public List<Accounts> getList() {
+        if (list == null) {
+            loadList();
+        }
+        return list;
+    }
+    
+    public Accounts getSelectedAccount() {
+        return selectedAccount;
+    }
 
-	public String deleteAccounts(Accounts accounts){
-		accountsDAO.remove(accounts);
-		return PAGE_STAY_AT_THE_SAME;
-	}
+    public void setSelectedAccount(Accounts selectedAccount) {
+        this.selectedAccount = selectedAccount;
+    }
 
+    public void loadList() {
+        Map<String,Object> searchParams = new HashMap<>();
+        if (accSurname != null && !accSurname.isEmpty()) {
+            searchParams.put("accSurname", accSurname);
+        }
+        list = accountsDAO.getList(searchParams);
+    }
+
+    public void search() {
+        Map<String,Object> searchParams = new HashMap<>();
+        if (accSurname != null && !accSurname.isEmpty()) {
+            searchParams.put("accSurname", accSurname);
+        }
+
+        list = accountsDAO.getList(searchParams);
+    }
+
+
+
+    public String editAccounts(Accounts accounts){
+        flash.put("accounts", accounts);
+        return PAGE_ACCOUNTS_EDIT;
+    }
+
+    public void deleteAccount(Accounts account) {
+        try {
+            accountsDAO.removeAccountWithRoles(account);
+            if (list != null) {
+                list.remove(account);
+            }
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto konto", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd przy usuwaniu", null));
+            e.printStackTrace();
+        }
+    }
 }

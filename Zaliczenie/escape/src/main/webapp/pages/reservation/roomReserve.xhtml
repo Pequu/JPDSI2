@@ -45,7 +45,13 @@
                                 <f:selectItem itemLabel="Karta" itemValue="2" />
                             </p:selectOneButton>
 
-                      
+                                <p:outputLabel for="voucher" value="Voucher:"
+                                       styleClass="bold-text"/>
+                                <p:inputText id="voucher"
+                                             value="#{roomsReserveBB.voucherCode}"
+                                             placeholder="Wpisz kod vouchera"/>
+
+                            
                         </h:panelGrid>
                         <p:commandButton value="Zarezerwuj" action="#{roomsReserveBB.saveData()}"
                                          style="margin-right: 1em;" update="@form" />

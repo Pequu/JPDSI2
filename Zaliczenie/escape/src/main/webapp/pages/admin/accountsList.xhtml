@@ -14,11 +14,12 @@
                 <h:form id="form-search">
                     <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel value="#{txtMain.surName}" for="surname" />
-                        <p:inputText id="surname" value="#{accountsListBB.accSurname}" />
+                        <p:inputText id="surname" value="#{accountsListBB.accSurname}" label="#{txtMain.surName}" />
+
 
                         <p:commandButton value="#{txtMain.buttonSearch}" 
-                                         update="form-table" 
-                                         action="#{accountsListBB.getList}" />
+                            update="form-table" 
+                            action="#{accountsListBB.search}" />
                     </h:panelGrid>
                 </h:form>
             </p:panel>
@@ -26,59 +27,60 @@
 
         <p:messages />
 
-        <h:form id="form-table" style="margin-bottom:1em;">
+        <h:form id="form-table">
+            <p:dataTable id="accountsTable" value="#{accountsListBB.list}" var="a">
 
-            <p:dataTable value="#{accountsListBB.list}" var="a">
-
-                <p:column responsivePriority="5">
-                    <f:facet name="header">
-                        <h:outputText value="#{txtMain.firstName}" />
-                    </f:facet>
+                <p:column headerText="#{txtMain.firstName}">
                     <h:outputText value="#{a.accName}" />
                 </p:column>
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{txtMain.surName}" />
-                    </f:facet>
+                <p:column headerText="#{txtMain.surName}">
                     <h:outputText value="#{a.accSurname}" />
                 </p:column>
-                
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{txtMain.username}" />
-                    </f:facet>
+
+                <p:column headerText="#{txtMain.username}">
                     <h:outputText value="#{a.accLogin}" />
                 </p:column>
-                
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{txtMain.birthdate}" />
-                    </f:facet>
+
+                <p:column headerText="#{txtMain.birthdate}">
                     <h:outputText value="#{a.accBirthDate}">
                         <f:convertDateTime pattern="dd-MM-yyyy" timeZone="UTC"/>
                     </h:outputText>
                 </p:column>
-                              
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{txtMain.options}" />
-                    </f:facet>
 
-                    <p:commandButton value="#{txtMain.buttonEdit}" style="margin-right: 0.5em"
-                                     action="#{accountsListBB.editAccounts(a)}"/>
+                <p:column headerText="#{txtMain.options}">
+                    <p:commandButton value="#{txtMain.buttonEdit}" 
+                                     action="#{accountsListBB.editAccounts(a)}"
+                                     icon="pi pi-pencil" />
 
-                    <p:commandButton value="#{txtMain.buttonDelete}" style="margin-right: 0.5em"
-                                     action="#{accountsListBB.deleteAccounts(a)}"
-                                     update="@form" />
+                    <p:commandButton value="Usuń" 
+                                    actionListener="#{accountsListBB.deleteAccount(a)}"
+                                    update=":form-table:accountsTable :messages"
+                                    icon="pi pi-trash"
+                                    style="margin-left: 1rem; background:rgb(200,0,0); border-color: rgb(200,0,0)">
+                       <p:confirm header="Potwierdzenie" message="Czy na pewno chcesz usunąć to konto?" icon="pi pi-exclamation-triangle"/>
+                   </p:commandButton>
 
 
                 </p:column>
 
             </p:dataTable>
+            
+            <p:confirmDialog global="true" message="Czy na pewno chcesz usunąć to konto?" 
+                            header="Potwierdzenie" severity="alert" widgetVar="confirmDialog">
+               <p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" style="background:rgb(200,0,0); border-color: rgb(200,0,0)"/>
+               <p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            </p:confirmDialog>
+
+            
         </h:form>
 
-        </ui:define>
+        <p:messages id="messages" />
 
+        
+        
+
+        </ui:define>
+        
     </ui:composition>
 </html>
