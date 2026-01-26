@@ -46,7 +46,7 @@ public class AccountsListBB {
 		return accName;
 	}
         
-        public void setName(String accName) {
+        public void setAccName(String accName) {
 		this.accName = accName;
 	}
 

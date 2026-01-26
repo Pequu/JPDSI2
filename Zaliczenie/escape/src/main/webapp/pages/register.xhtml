@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces">
+
+<ui:composition template="/templates/login-template.xhtml">
+
+	<ui:define name="content" class="box">
+
+            
+            <style>
+                .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+                    text-align: center;
+                }
+
+                .customPanelGrid .ui-panelgrid-content {
+                    align-items: center;
+                }
+            </style>
+
+            <h:form>
+                <div class="card logForm">
+                    <h1>Strona Rejestracji</h1>
+                    <p:panelGrid columns="2">
+                        <h:outputLabel for="login" value="#{txtMain.username}:" />
+                        <h:inputText id="login" value="#{registerBB.login}"
+                                                required="true"	requiredMessage="Musisz podać email!"
+                                                maxlength="10"/>
+
+                        <h:outputLabel for="name" value="Imię:" />
+                        <h:inputText id="name" value="#{registerBB.name}"
+                                                required="true"	requiredMessage="Musisz podać imię!"
+                                                maxlength="25"/>
+
+                        <h:outputLabel for="surname" value="Nazwisko:" />
+                        <h:inputText id="surname" value="#{registerBB.surname}"
+                                                required="true"	requiredMessage="Musisz podać nazwisko!"
+                                                maxlength="25"/>
+
+                        <h:outputLabel for="pass" value="#{txtMain.password}:" />
+                        <h:inputSecret id="pass" value="#{registerBB.pass}"
+                                                required="true"	requiredMessage="Musisz podać hasło!"/>
+
+                        <h:outputLabel for="pass2" value="Powtórz hasło:" />
+                        <h:inputSecret id="pass2" value="#{registerBB.pass2}"
+                                                required="true"	requiredMessage="musisz powtórzyć hasło!"/>
+
+                        <h:outputLabel for="email" value="Email:" />
+                        <h:inputText id="email" value="#{registerBB.email}" required="true" requiredMessage="musisz podać email!" label="Email" validatorMessage="niepoprawny email!">
+                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                        </h:inputText>
+
+                        <h:outputLabel for="birth" value="Data Urodzenia:" />
+                        <p:datePicker id="birth" value="#{registerBB.birthdate}" maxdate="#{calendarView.maxDate}" readonlyInput="true" required="true" requiredMessage="Musisz podać datę!" />
+
+                        <h:commandButton value="Zarejestruj" action="#{registerBB.doRegister()}" styleClass="fancyButton"/>
+                        <h:outputLink value="login.xhtml" styleClass="log-link">Zaloguj się</h:outputLink>
+
+                        <h:message for="someInput" /><h:messages />
+
+                    </p:panelGrid>
+                </div>
+
+            </h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

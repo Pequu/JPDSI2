@@ -20,6 +20,8 @@ import com.jsfcourse.entities.Rooms;
 @RequestScoped
 public class RoomsListBB {
 
+        private static final String PAGE_ROOM_RESERVE = "/pages/reservation/roomReserve?faces-redirect=true";
+        
 	private String roomName;
 		
 	@Inject
@@ -57,6 +59,17 @@ public class RoomsListBB {
 		list = roomsDAO.getList(searchParams);
 		
 		return list;
+	}
+        
+        public String reserveRoom(Rooms rooms){
+		//1. Pass object through session
+		//HttpSession session = (HttpSession) extcontext.getSession(true);
+		//session.setAttribute("rooms", rooms);
+		
+		//2. Pass object through flash 
+		flash.put("rooms", rooms);
+		
+		return PAGE_ROOM_RESERVE;
 	}
 
 }

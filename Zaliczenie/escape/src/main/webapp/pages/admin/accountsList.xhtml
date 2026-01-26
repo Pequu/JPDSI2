@@ -10,16 +10,19 @@
 
         <ui:define name="content">
 
-            <p:panel header="#{txtMain.searchOpt}" toggleable="true" collapsed="true"
-                 style="margin-bottom: 1em;">
-            <h:form>
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel value="#{txtMain.surName}" />
-                    <p:inputText value="#{AccountsListBB.accSurname}" />
-                    <p:commandButton value="#{txtMain.buttonSearch}" update="form-table" />
-                </h:panelGrid>
-            </h:form>
-        </p:panel>
+            <p:panel header="#{txtMain.searchOpt}" toggleable="true" collapsed="true" style="margin-bottom: 1em;">
+                <h:form id="form-search">
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel value="#{txtMain.surName}" for="surname" />
+                        <p:inputText id="surname" value="#{accountsListBB.accSurname}" />
+
+                        <p:commandButton value="#{txtMain.buttonSearch}" 
+                                         update="form-table" 
+                                         action="#{accountsListBB.getList}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+
 
         <p:messages />
 
@@ -52,10 +55,11 @@
                     <f:facet name="header">
                         <h:outputText value="#{txtMain.birthdate}" />
                     </f:facet>
-                    <h:outputText value="#{a.accBirthDate}" />
+                    <h:outputText value="#{a.accBirthDate}">
+                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="UTC"/>
+                    </h:outputText>
                 </p:column>
-                
-                
+                              
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="#{txtMain.options}" />
@@ -68,9 +72,7 @@
                                      action="#{accountsListBB.deleteAccounts(a)}"
                                      update="@form" />
 
-                    <p:button outcome="accountsEditGET" value="Edytuj (GET)">
-                        <f:param name="p" value="#{a.idAccount}" />
-                    </p:button>
+
                 </p:column>
 
             </p:dataTable>

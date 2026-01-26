@@ -10,6 +10,11 @@ body{
 	margin-bottom: 2em;
 }
 
+.just-center{
+    justify-content: center;
+    justify-items: center;
+}
+
 .top-space{
 	margin-top: 1em;
 }
@@ -44,6 +49,7 @@ body{
     background: #121719;
     color: white;
     box-sizing: content-box;
+    z-index: 3;
 }
 
 .light{
@@ -115,7 +121,7 @@ body{
     background-color: #121719;
     color: white;
     padding: 3rem;
-    border-radius: 15%;
+    border-radius: 5em;
 }
 
 .logForm input{
@@ -162,4 +168,21 @@ section{
   text-shadow: 0 0.0625em 0 #fff;
   transition: 0.15s ease;
   cursor: pointer;
+}
+
+.reserve-form{
+    font-size:1.7rem;
+}
+
+.bold-text{
+    font-weight: bold;
+}
+
+.bigText{
+    font-size: 1.7rem;
+}
+
+.log-link, log-link:visited{
+    color:white;
+    font-weight: bold;
 }

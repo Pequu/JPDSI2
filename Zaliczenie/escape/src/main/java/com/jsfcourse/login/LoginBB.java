@@ -15,6 +15,7 @@ import com.jsfcourse.DAO.AccountsDAO;
 import com.jsfcourse.entities.Accounts;
 import java.util.HashMap;
 import java.util.Map;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Named
 @RequestScoped
@@ -46,47 +47,47 @@ public class LoginBB {
 
 	@Inject
 	AccountsDAO accountsDAO;
+        
+        @Inject
+        UserSessionBB userSession;
 
 	public String doLogin() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 
-		// 1. verify login and password - get Accounts from "database"
-		Accounts accounts = accountsDAO.findByLoginAndPass(login, pass);
+		// 1.zweryfikuj login i zhashowane haslo
+		Accounts accounts = accountsDAO.findByLogin(login, pass);
 
-		// 2. if bad login or password - stay with error info
-		if (accounts == null) {
+		// 2. jezeli zly login lub haslo to error
+		if (accounts == null || !BCrypt.checkpw(pass, accounts.getAccPass())) {
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Niepoprawny login lub hasło", null));
 			return PAGE_STAY_AT_THE_SAME;
 		}
 
-		// 3. if logged in: get Accounts roles, save in RemoteClient and store it in session
-		
+		// 3. jesli wszystko ok to dodaj RemoteClient i zapisz w Session
+		               
 		RemoteClient<Accounts> client = new RemoteClient<Accounts>(); //create new RemoteClient
                 client.setDetails(accounts);
 		
 		List<String> roles = accountsDAO.getRolesForAccount(accounts); //get Accounts roles 
 		
-		if (roles != null) { //save roles in RemoteClient
+		if (roles != null) { //zapisz role w RemoteClient
 			for (String role: roles) {
 				client.getRoles().add(role);
 			}
 		}
 	
-		//store RemoteClient with request info in session (needed for SecurityFilter)
 		HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
 		client.store(request);
-
-		// and enter the system (now SecurityFilter will pass the request)
+                
+                userSession.setLoggedAccount(accounts);           
 		return PAGE_MAIN;
 	}
         
 	public String doLogout(){
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(true);
-		//Invalidate session
-		// - all objects within session will be destroyed
-		// - new session will be created (with new ID)
+
 		session.invalidate();
 		return PAGE_MAIN;
 	}

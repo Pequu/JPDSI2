@@ -20,12 +20,14 @@
         <init-param>
             <param-name>permissions</param-name>
             <param-value>
-                /jakarta.faces.resource : PUBLIC;
+                /jakarta.faces.resource : PUBLIC;                            
                 /public : PUBLIC;
                 /pages/public : PUBLIC;
+                /pages/register : PUBLIC;
                 /pages : admin;
-                /pages/accounts : user, admin;
                 /pages/admin : admin;
+                /pages/reservation : user, admin;
+                /pages/worker : pracownik; 
             </param-value>
         </init-param>
         

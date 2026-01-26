@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/templates/main-template.xhtml">
+
+    <ui:define name="content">
+
+        <h:form id="form-reservations">
+
+            <p:panel header="Rezerwacje" toggleable="false" collapsed="false">
+                
+                <h:panelGrid columns="4" cellpadding="5">
+                    <h:outputLabel value="Numer pokoju:" for="roomNumber"/>
+                    <p:inputText id="roomNumber" value="#{reservationsListBB.roomNumberSearch}" />
+                    <p:commandButton value="Szukaj" action="#{reservationsListBB.searchByRoom}" update="@form" />
+                    <p:commandButton value="#{reservationsListBB.showExpiredOnly ? 'Pokaż wszystkie' : 'Pokaż aktualne'}"
+                     action="#{reservationsListBB.toggleExpiredFilter}"
+                     update="@form"/>
+                </h:panelGrid>
+                
+                <p:dataTable value="#{reservationsListBB.list}" var="r" rows="10" paginator="true">
+                    
+                    <p:column sortBy="#{r.idReservation}">
+                        <f:facet name="header">
+                            <h:outputText value="ID rezerwacji"/>
+                        </f:facet>
+                        <h:outputText value="#{r.idReservation}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{r.resDate}">
+                        <f:facet name="header">
+                            <h:outputText value="Data Rezerwacji"/>
+                        </f:facet>
+                        <h:outputText value="#{r.resDateDisplay}">
+                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="UTC"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{r.resPrice}">
+                        <f:facet name="header">
+                            <h:outputText value="Cena"/>
+                        </f:facet>
+                        <h:outputText value="#{r.resPrice} zł"/>
+                    </p:column>
+
+                    <p:column sortBy="#{r.resPayment}">
+                        <f:facet name="header">
+                            <h:outputText value="Metoda Płatności"/>
+                        </f:facet>
+                        <h:outputText value="#{r.resPayment == 1 ? 'Gotówka' : r.resPayment == 2 ? 'Karta' : 'Inna'}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{r.resIsActive}">
+                        <f:facet name="header">
+                            <h:outputText value="Aktywne"/>
+                        </f:facet>
+                        <h:outputText value="#{r.resIsActive ? 'Tak' : 'Nie'}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{r.accountsidAccount.accSurname}">
+                        <f:facet name="header">
+                            <h:outputText value="Konto"/>
+                        </f:facet>
+                        <h:outputText value="#{r.accountsidAccount.accName} #{r.accountsidAccount.accSurname}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{r.roomsidRoom.idRoom}">
+                        <f:facet name="header">
+                            <h:outputText value="Pokój"/>
+                        </f:facet>
+                        <h:outputText value="#{r.roomsidRoom.idRoom}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{r.vouchersidVoucher != null ? r.vouchersidVoucher.voName : ''}">
+                        <f:facet name="header">
+                            <h:outputText value="Voucher"/>
+                        </f:facet>
+                        <h:outputText value="#{r.vouchersidVoucher != null ? r.vouchersidVoucher.voName : 'Brak'}"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opcje"/>
+                        </f:facet>
+
+                        <p:commandButton value="Przełącz" 
+                                         action="#{reservationsListBB.switchReservation(r)}"
+                                         update="@form"
+                                         style="margin-right: 0.5em"/>
+
+                        <p:commandButton value="Usuń" 
+                                         action="#{reservationsListBB.deleteReservation(r)}"
+                                         update="@form"
+                                         style="margin-right: 0.5em"
+                                         icon="pi pi-times"/>
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+</html>

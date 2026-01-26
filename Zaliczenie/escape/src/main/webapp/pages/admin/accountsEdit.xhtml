@@ -10,12 +10,9 @@
         <f:viewAction action="#{accountsEditBB.onLoad()}" />
     </f:metadata>
 
-    <h:head>
-        <meta charset="utf-8"/>
-        <title>MR </title>
-    </h:head>
+    <ui:composition template="/templates/main-template.xhtml">
 
-    <h:body style="background-color: #eee; margin: 0.5em;">
+        <ui:define name="content">
 
         <p:panel toggleable="true" header="Edycja rekordu">
 
@@ -39,12 +36,21 @@
                     <p:message for="a-surname" display="icon"/>
 
                     <h:outputLabel for="a-date" value="#{txtMain.birthdate}:" />
-                    <p:inputText id="a-date" value="#{accountsEditBB.accounts.accBirthDate}"
-                                 required="true" requiredMessage="#{txtMain.requiredMessage}"
-                                 converterMessage="#{txtErr.invalidDateMessage}">
-                        <f:convertDateTime pattern="dd-MM-yyyy"/>
-                    </p:inputText>
+                    <p:datePicker id="a-date" value="#{accountsEditBB.accounts.accBirthDate}" maxdate="#{calendarView.maxDate}" readonlyInput="true" required="true" requiredMessage="Musisz podać datę!" />
                     <p:message for="a-date" display="icon"/>
+                    
+                    <h:outputLabel for="a-typ" value="Typ konta:"/>
+                    <p:selectOneMenu id="a-type"
+                                    value="#{accountsEditBB.selectedRoleId}"
+                                    required="true"
+                                    requiredMessage="#{txtErr.requiredMessage}">
+                       <f:selectItems value="#{accountsEditBB.rolesList}" 
+                                      var="r" 
+                                      itemLabel="#{r.roleName}" 
+                                      itemValue="#{r.idRole}" />
+                    </p:selectOneMenu>
+                    <p:message for="a-type" display="icon"/>
+
                 </h:panelGrid>
 
                 <p:messages id="msgs" />
@@ -57,6 +63,6 @@
 
         </p:panel>
 
-    </h:body>
-
+        </ui:define>
+    </ui:composition>
 </html>

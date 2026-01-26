@@ -11,42 +11,41 @@
 	<ui:define name="content" class="box">
 
             
-        <style>
-            .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
-                text-align: center;
-            }
+            <style>
+                .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+                    text-align: center;
+                }
 
-            .customPanelGrid .ui-panelgrid-content {
-                align-items: center;
-            }
-        </style>
+                .customPanelGrid .ui-panelgrid-content {
+                    align-items: center;
+                }
+            </style>
 
-<h:form>
-<div class="card logForm">
-    <h1>Strona Logowania</h1>
-    <p:panelGrid columns="2">
-        <h:outputLabel for="login" value="#{txtMain.username}:" />
-        <h:inputText id="login" value="#{loginBB.login}"
-					required="true"	requiredMessage="#{txtErr.requiredMessage}"/>
+            <h:form>
+                <div class="card logForm">
+                    <h1>Strona Logowania</h1>
+                    <p:panelGrid columns="2">
+                        <h:outputLabel for="login" value="#{txtMain.username}:" />
+                        <h:inputText id="login" value="#{loginBB.login}"
+                                                        required="true"	requiredMessage="#{txtErr.requiredMessage}"/>
 
-        <h:outputLabel for="pass" value="#{txtMain.password}:" />
-        <h:inputSecret id="pass" value="#{loginBB.pass}"
-				required="true"	requiredMessage="#{txtErr.requiredMessage}"/>
-        
-        <h:commandButton value="#{txtMain.buttonLogin}" action="#{loginBB.doLogin()}" styleClass="fancyButton"/>
-        
-        <h:message for="someInput" /><h:messages />
+                        <h:outputLabel for="pass" value="#{txtMain.password}:" />
+                        <h:inputSecret id="pass" value="#{loginBB.pass}"
+                                                required="true"	requiredMessage="#{txtErr.requiredMessage}"/>
 
-    </p:panelGrid>
-</div>
+                        <h:commandButton value="#{txtMain.buttonLogin}" action="#{loginBB.doLogin()}" styleClass="fancyButton"/>
+                        <h:outputLink value="register.xhtml" styleClass="log-link">Zarejestruj się</h:outputLink>  
+                        
+                        <h:message for="someInput" /><h:messages />
+
+                    </p:panelGrid>
+                                        
+                               
+                    
+                </div>
+            </h:form>
+                                          
             
-         		              
-		
-		
-			
-
-		</h:form>
-
 	</ui:define>
 
 </ui:composition>

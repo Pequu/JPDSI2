@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+    <f:metadata>
+        <f:viewAction action="#{roomsReserveBB.onLoad()}" />
+    </f:metadata>
+
+    <ui:composition template="/templates/main-template.xhtml">
+
+        <ui:define name="content">
+            <section class="light first">
+                
+            <h:outputScript name="locales/locale-es.js" library="primefaces" />   
+            
+                <p:panel toggleable="true" header="Rezerwacja">
+
+                    <h:form rendered="#{roomsReserveBB.rooms != null}" styleClass="reserve-form" id="form">
+                        <h:panelGrid columns="2" cellpadding="5">
+
+                            <h:graphicImage library="template" name="img/#{roomsReserveBB.rooms.roomCover}.jfif" style="height: 15rem;"/>
+                            <h:outputText />
+
+                            <h:outputText value="Rezerwujesz Pokój:" styleClass="bold-text"/>
+                            <h:outputText value="#{roomsReserveBB.rooms.roomName}" />                   
+
+                            <h:outputText value="Cena:" styleClass="bold-text"/>
+                            <h:outputText value="#{roomsReserveBB.rooms.roomPrice} zł" />
+                            
+                            <p:outputLabel for="enabledDates" value="Wybierz datę:" styleClass="bold-text bigText"/>
+                            <p:datePicker id="enabledDates"
+                                value="#{roomsReserveBB.reservationDate}"
+                                enabledDates="#{calendarView.validDates}"
+                                readonlyInput="true"
+                                required="true"
+                                requiredMessage="Wybierz datę!"/>
+                            
+                            <p:outputLabel value="Metoda płatności" styleClass="bold-text bigText"/>
+                            <p:selectOneButton value="#{roomsReserveBB.paymentMethod}" required="true" requiredMessage="Musisz wybrać metodę płatności!">
+                                <f:selectItem itemLabel="Gotówka" itemValue="1" />
+                                <f:selectItem itemLabel="Karta" itemValue="2" />
+                            </p:selectOneButton>
+
+                      
+                        </h:panelGrid>
+                        <p:commandButton value="Zarezerwuj" action="#{roomsReserveBB.saveData()}"
+                                         style="margin-right: 1em;" update="@form" />
+                        
+                        <p:button value="#{txtMain.buttonCancel}" outcome="/pages/public/roomList" />
+                        
+                         <p:messages id="msgs" />
+                    </h:form>
+
+                </p:panel>
+
+            </section>
+        </ui:define>
+    </ui:composition>
+
+</html>

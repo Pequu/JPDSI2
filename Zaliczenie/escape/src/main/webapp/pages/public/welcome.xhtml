@@ -9,10 +9,11 @@
     <ui:composition template="/templates/main-template.xhtml">
 
         <ui:define name="content">
-            <section class="light first">
-
-                <h:graphicImage library="template" name="img/baner.jpg" alt="baner" style="height: 25rem;"/>
-                <h2 class="alt">Witamy na stronie <strong>Escapists</strong> sieci pokojów typu Escape Room</h2>
+            <section class="light first just-center" >
+                <div style="text-align:center;">
+                    <h:graphicImage library="template" name="img/baner.jpg" alt="baner" style="height: 25rem;"/>
+                </div>
+                <h2 class="alt bottom-space">Witamy na stronie <strong>Escapists</strong> sieci pokojów typu Escape Room</h2>
                 <h:outputLabel value="Oferujemy najnowocześniejsze i najbardziej różnorodne atrakcje dla każdego!"/>
             </section>
             
@@ -47,27 +48,27 @@
 
                                     <h:outputLabel for="name" value="Imię:" rendered="#{empty remoteClient.details}"/>
                                     <h:inputText id="name"
-                                                 value="#{contactBB.name}"
+                                                 value=""
                                                  required="true"
                                                  requiredMessage="#{txtErr.requiredMessage}" 
                                                  rendered="#{empty remoteClient.details}"/>
 
                                     <h:outputLabel for="email" value="Email:" rendered="#{empty remoteClient.details}"/>
                                     <h:inputText id="email"
-                                                 value="#{contactBB.email}"
+                                                 value=""
                                                  required="true"
                                                  requiredMessage="#{txtErr.requiredMessage}" 
                                                  rendered="#{empty remoteClient.details}"/>
 
                                     <h:outputLabel for="message" value="Wiadomość:" />
                                     <h:inputTextarea id="message"
-                                                     value="#{contactBB.message}"
+                                                     value=""
                                                      rows="5"
                                                      required="true"
                                                      requiredMessage="#{txtErr.requiredMessage}" />
 
                                     <h:outputText />
-                                    <h:commandButton value="Wyślij" action="#{contactBB.send}" styleClass="fancyButton" />
+                                    <h:commandButton value="Wyślij" styleClass="fancyButton" />
 
                                 </p:panelGrid>
 

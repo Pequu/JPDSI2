@@ -11,11 +11,14 @@
         <p:menuitem value="Strona Główna" outcome="/pages/public/welcome" icon="pi pi-fw pi-home" >
             <f:param name="i" value="0"/>
         </p:menuitem>
-        <p:menuitem value="Pokoje" outcome="/pages/public/roomList" icon="pi pi-fw pi-objects-column">
+        <p:menuitem value="Pokoje" outcome="/pages/public/roomList" icon="pi pi-fw pi-objects-column" rendered="#{!(remoteClient.roles.contains('admin') or remoteClient.roles.contains('pracownik'))}">
             <f:param name="i" value="1"/>
         </p:menuitem>
-         <p:menuitem value="Ustawienia" outcome="/pages/admin/accountsList" icon="pi pi-fw pi-cog">
-            <f:param name="i" value="1"/>
+        <p:menuitem value="Panel Pracownika" outcome="/pages/worker/workerPanel" icon="pi pi-fw pi-cog" rendered="#{remoteClient.roles.contains('pracownik')}">
+            <f:param name="i" value="2"/>
+        </p:menuitem>
+         <p:menuitem value="Panel Administratora" outcome="/pages/admin/accountsList" icon="pi pi-fw pi-cog" rendered="#{remoteClient.roles.contains('admin')}">
+            <f:param name="i" value="3"/>
         </p:menuitem>
     </p:tabMenu>
     </h:form>

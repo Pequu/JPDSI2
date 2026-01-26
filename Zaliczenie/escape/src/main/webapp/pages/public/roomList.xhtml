@@ -10,28 +10,27 @@
 
         <ui:define name="content">
             <section class="light first">
-
-                <h:graphicImage library="template" name="img/baner.jpg" alt="baner" style="height: 25rem;"/>
                
-                <h2>Lista naszych aktualnych Escape Room'ów</h2>
-                
-            <p:panel header="#{txtMain.searchOpt}" toggleable="true" collapsed="true"
-                     style="margin-bottom: 1em;">
-                <h:form>
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputLabel value="Nazwa Pokoju" />
-                        <p:inputText value="#{RoomsListBB.roomName}" />
-                        <p:commandButton value="#{txtMain.buttonSearch}" update="form-table" />
-                    </h:panelGrid>
-                </h:form>
-            </p:panel>
+                <div style="justify-items: center">
+                    <div style="text-align:center;">
+                        <h:graphicImage library="template" name="img/baner.jpg" alt="baner" style="height: 25rem;"/>
+                    </div>
+                    <h2>Lista naszych aktualnych Escape Room'ów</h2>
+                </div>
 
             <p:messages />
 
-            <h:form id="form-table" style="margin-bottom:1em;" >
+            <h:form id="form-table" style="margin-bottom:1em;" styleClass="top-space just-center">
 
-                <p:dataTable value="#{roomsListBB.list}" var="r">
+                <p:dataTable value="#{roomsListBB.list}" var="r" style="font-size: 1.2rem; width:60%">
 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Obraz:" />
+                        </f:facet>
+                        <h:graphicImage library="template" name="img/#{r.roomCover}.jfif" style="height: 15rem;"/>
+                    </p:column>
+                    
                     <p:column responsivePriority="5">
                         <f:facet name="header">
                             <h:outputText value="Nazwa pokoju" />
@@ -50,28 +49,17 @@
                         <f:facet name="header">
                             <h:outputText value="Cena:" />
                         </f:facet>
-                        <h:outputText value="#{r.roomPrice}" />
+                        <h:outputText value="#{r.roomPrice} zł" />
                     </p:column>
-
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Obraz:" />
-                        </f:facet>
-                        <h:outputText value="#{r.roomCover}" />
-                    </p:column>
-
 
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{txtMain.options}" />
                         </f:facet>
 
-                        <p:commandButton value="#{txtMain.buttonEdit}" style="margin-right: 0.5em"
-                                         />
+                        <p:commandButton value="Zarezerwuj" style="margin-right: 0.5em; padding: 2rem; z-index: 2;"
+                                     action="#{roomsListBB.reserveRoom(r)}"/>
 
-                        <p:commandButton value="#{txtMain.buttonDelete}" style="margin-right: 0.5em"
-                                         
-                                         update="@form" />
 
                     </p:column>
 

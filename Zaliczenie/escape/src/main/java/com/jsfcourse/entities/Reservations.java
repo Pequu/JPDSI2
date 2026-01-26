@@ -19,6 +19,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -92,6 +93,18 @@ public class Reservations implements Serializable {
     public Date getResDate() {
         return resDate;
     }
+    
+    public Date getResDateDisplay() {
+    if (resDate == null) return null;
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(resDate);
+    cal.set(Calendar.HOUR_OF_DAY, 12); // godzina południowa = bez przesunięcia dnia
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    return cal.getTime();
+}
+
 
     public void setResDate(Date resDate) {
         this.resDate = resDate;

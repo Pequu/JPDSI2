@@ -9,6 +9,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 import com.jsfcourse.entities.Accounts;
+import com.jsfcourse.entities.Accroles;
+import com.jsfcourse.entities.Roles;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -96,16 +98,15 @@ public class AccountsDAO {
 		return list;
 	}
         //wyszukanie loginu i czy się zgadza z haslem z bazy
-        public Accounts findByLoginAndPass(String login, String pass) {
+        public Accounts findByLogin(String login, String pass) {
             
             ArrayList<String> roles = new ArrayList<String>();
             
             try {
                 Query query = em.createQuery(
-                    "SELECT a FROM Accounts a WHERE a.accLogin = :login AND a.accPass = :pass"
+                    "SELECT a FROM Accounts a WHERE a.accLogin = :login"
                 );
                 query.setParameter("login", login);
-                query.setParameter("pass", pass);
 
                 return (Accounts) query.getSingleResult();
             } catch (Exception e) {
@@ -126,6 +127,30 @@ public class AccountsDAO {
                 return null;
             }
         }
+        
+        public Accounts findWithRoles(Integer id) {
+            return em.createQuery("SELECT a FROM Accounts a LEFT JOIN FETCH a.accrolesCollection WHERE a.idAccount = :id", Accounts.class)
+                     .setParameter("id", id)
+                     .getSingleResult();
+        }
+        
+        public void createUserWithRole(Accounts account, int roleId) {
+        // zapis konta
+        em.persist(account);
+        em.flush(); // wymusza wygenerowanie ID konta
+
+        // przypisanie roli
+        Roles role = em.find(Roles.class, roleId); // zakładamy, że rola o ID=1 istnieje w DB
+        if (role == null) {
+            throw new RuntimeException("Rola nie istnieje w bazie!");
+        }
+
+        Accroles accRole = new Accroles();
+        accRole.setAccidAccount(account);
+        accRole.setRolesidRole(role);
+
+        em.persist(accRole);
+    }
 
 
 }
